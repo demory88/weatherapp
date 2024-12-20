@@ -1,0 +1,19 @@
+<div class="container-fluid overflow-hidden text-center">
+  <div class="row mt-5">
+    <div class="col-2 offset-5">
+      <%= form_with url: root_path, method: :get,
+        data: {turbo_frame: :weather_forecast}, id: "weather_form" do |f| %>
+
+        <div class="input-group mb-3">
+          <%= f.search_field :address, placeholder: "City, State", class: "form-control", title: "Enter city and state to fetch your local weather" %>
+          <%= f.button "Search", type: "submit", class: "btn btn-success" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% if @forecast.present? %>
+    <%= render "forecast", forecast: @forecast %>
+  <% elsif @api_error.present? %>
+    <h1 class="p-3 text-warning-emphasis"><%= @api_error %></h1>
+  <% end %>
+</div>

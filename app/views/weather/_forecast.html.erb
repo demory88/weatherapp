@@ -1,0 +1,29 @@
+<%= turbo_frame_tag "forecast" do %>
+  <div class="row mt-5">
+    <div class="col">
+      <h1 class="p-3 text-primary-emphasis border-bottom">Current Weather for <%= params[:address] %></h1>
+      <% if @cached_weather.present? %>
+        <h5 class="p-2 text-warning-emphasis">Weather conditions fetched within the last 30 minutes.</h5>
+      <% end %>
+      <h2 class="pt-2">Current Conditions: <%= forecast.current.weather[0].description&.titleize %></h2>
+      <h3>Today's Forecast: <%= forecast.daily[0].summary %></h3>
+      <h3>Current Temp: <%= forecast.current.temp_f %>&deg;F </h3>
+      <h3>High: <%= forecast.daily[0].temp.max_f %>&deg;F &nbsp;|&nbsp; Low: <%= forecast.daily[0].temp.min_f %>&deg;F </h3>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col text-center">
+      <h2 class="border-top pt-3">7 Day Forecast:</h2>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <% forecast.daily.drop(1).each_with_index do |daily, index| %>
+      <div class="col p-3 border rounded">
+        <h4><%= daily.dt&.strftime('%m/%d') %></h4>
+        <h4>Conditions: <%= daily.summary %></h4>
+        <h5>High: <%= daily.temp.max_f %>&deg;F</h5>
+        <h5>Low: <%= daily.temp.min_f %>&deg;F </h5>
+      </div>
+    <% end %>
+  </div>
+<% end %>
